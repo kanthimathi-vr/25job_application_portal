@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Available Jobs</h2>
+
+<form method="GET" action="{{ url_for('home') }}">
+    <label>Filter by Department:</label>
+    <select name="dept" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for d in departments %}
+        <option value="{{ d }}" {% if selected_dept == d %}selected{% endif %}>{{ d }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<div class="job-list">
+    {% for job in jobs %}
+    <a href="{{ url_for('job_detail', job_id=job.id) }}" class="job-card">
+        <img src="{{ url_for('static', filename=job.logo) }}" alt="{{ job.company }}">
+        <div>
+            <h3>{{ job.title }}</h3>
+            <p class="company">{{ job.company }}</p>
+            <p class="dept">{{ job.department }}</p>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
